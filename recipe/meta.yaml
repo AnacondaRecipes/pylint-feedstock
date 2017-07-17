@@ -21,7 +21,7 @@ build:
     - symilar = pylint:run_symilar
 
 requirements:
-  build:
+  host:
     - python
     - pip
     - pytest-runner
