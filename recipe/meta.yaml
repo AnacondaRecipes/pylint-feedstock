@@ -1,19 +1,21 @@
 {% set name = "pylint" %}
-{% set version = "1.7.2" %}
-{% set sha256 = "ea6afb93a9ed810cf52ff3838eb3a15e2bf6a81b80de0eaede1ce442caa5ca69" %}
+{% set version = "1.7.4" %}
+{% set file_ext = "tar.gz" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "1f65b3815c3bf7524b845711d54c4242e4057dd93826586620239ecdfe591fb1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  fn: {{ name }}-{{ version }}.{{ file_ext }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ file_ext }}
+  {{ hash_type }}: {{ hash_value }}
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: python setup.py install --single-version-externally-managed --record=record.txt
   entry_points:
     - pylint = pylint:run_pylint
     - pylint-gui = pylint:run_pylint_gui
@@ -32,7 +34,7 @@ requirements:
     - astroid >=1.5.1
     - backports.functools_lru_cache  # [py27]
     - configparser                   # [py27]
-    - singledispatch                 # [py27]
+    - singledispatch                 # [py<34]
     - colorama                       # [win]
     - six
     - isort >=4.2.5
@@ -78,3 +80,4 @@ about:
 extra:
   recipe-maintainers:
     - jakirkham
+    - nehaljwani
