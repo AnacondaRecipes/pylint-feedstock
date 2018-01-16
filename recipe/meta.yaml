@@ -1,8 +1,8 @@
 {% set name = "pylint" %}
-{% set version = "1.7.4" %}
+{% set version = "1.8.1" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "1f65b3815c3bf7524b845711d54c4242e4057dd93826586620239ecdfe591fb1" %}
+{% set hash_value = "3035e44e37cd09919e9edad5573af01d7c6b9c52a0ebb4781185ae7ab690458b" %}
 
 package:
   name: {{ name|lower }}
