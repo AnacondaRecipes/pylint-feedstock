@@ -1,8 +1,8 @@
 {% set name = "pylint" %}
-{% set version = "1.8.1" %}
+{% set version = "1.8.2" %}
 {% set file_ext = "tar.gz" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "3035e44e37cd09919e9edad5573af01d7c6b9c52a0ebb4781185ae7ab690458b" %}
+{% set hash_value = "4fe3b99da7e789545327b75548cee6b511e4faa98afe268130fea1af4b5ec022" %}
 
 package:
   name: {{ name|lower }}
@@ -31,7 +31,7 @@ requirements:
 
   run:
     - python
-    - astroid >=1.5.1
+    - astroid >=1.6,<2.0
     - backports.functools_lru_cache  # [py27]
     - configparser                   # [py27]
     - singledispatch                 # [py<34]
