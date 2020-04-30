@@ -1,4 +1,4 @@
-{% set version = "2.4.4" %}
+{% set version = "2.5.0" %}
 
 package:
   name: pylint
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/pylint/pylint-{{ version }}.tar.gz
-  sha256: 3db5468ad013380e987410a8d6956226963aed94ecb5f9d3a28acca6d9ac36cd
+  sha256: 588e114e3f9a1630428c35b7dd1c82c1c93e1b0e78ee312ae4724c5e1a1e0245
 
 build:
   number: 0
@@ -32,6 +32,8 @@ requirements:
     - colorama  # [win]
 
 test:
+  requires:
+    - toml
   imports:
     - pylint
     - pylint.checkers
