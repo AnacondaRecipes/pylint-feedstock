@@ -22,16 +22,18 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
   host:
-    - python
+    - python >=3.6
     - pip
     - pytest-runner
-
+    - setuptools_scm
+    - setuptools
+    - wheel
   run:
-    - astroid >=2.4.0,<=2.5
+    - astroid >=2.5.8,<=2.7
     - colorama  # [win]
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.7
-    - python
+    - python >=3.6
     - toml >=0.7.1
 
 test:
@@ -42,7 +44,7 @@ test:
     - pylint.pyreverse
     - pylint.reporters
     - pylint.reporters.ureports
-
+    - pylint.utils
   commands:
     - pylint --help
     # Has no help option.
@@ -55,8 +57,9 @@ test:
 
 about:
   home: http://www.pylint.org/
-  license: GPL-2.0-only
-  license_file: COPYING
+  license: GPL-2.0-or-later
+  license_family: GPL
+  license_file: LICENSE
   summary: python code static checker
   description: |
     Pylint is a tool that checks for errors in Python code, tries to enforce a
