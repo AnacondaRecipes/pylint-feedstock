@@ -10,7 +10,8 @@ source:
 
 build:
   number: 1
-  skip: True  # [py<36]
+  # 6/11/2021: skip py<36 causes an unsatisfiable error on win32 with py36
+  #skip: True  # [py<36]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - pylint = pylint:run_pylint
