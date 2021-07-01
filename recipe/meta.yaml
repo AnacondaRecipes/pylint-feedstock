@@ -30,7 +30,7 @@ requirements:
     - setuptools
     - wheel
   run:
-    - astroid >=2.5.8,<=2.7
+    - astroid >=2.6.2,<=2.7
     - colorama  # [win]
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.7
@@ -46,7 +46,10 @@ test:
     - pylint.reporters
     - pylint.reporters.ureports
     - pylint.utils
+  requires:
+    - pip
   commands:
+    - pip check
     - pylint --help
     # Has no help option.
     # Running without arguments is an error.
