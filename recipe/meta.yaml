@@ -21,7 +21,7 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
+    - python                   # [build_platform != target_platform]
   host:
     - python
     - pip
