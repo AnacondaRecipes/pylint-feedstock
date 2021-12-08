@@ -9,9 +9,7 @@ source:
   sha256: 9d945a73640e1fec07ee34b42f5669b770c759acd536ec7b16d7e4b87a9c9ff9
 
 build:
-  number: 1
-  # 6/11/2021: skip py<36 causes an unsatisfiable error on win32 with py36
-  #skip: True  # [py<36]
+  number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - pylint = pylint:run_pylint
@@ -20,22 +18,20 @@ build:
     - symilar = pylint:run_symilar
 
 requirements:
-  build:
-    - python                   # [build_platform != target_platform]
   host:
     - python
     - pip
-    - pytest-runner
-    - setuptools_scm
     - setuptools
     - wheel
   run:
-    - astroid >=2.6.5,<=2.7
+    - python >=3.6.2
+    - astroid >=2.9.0,<2.10
     - colorama  # [win]
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.7
-    - python
-    - toml >=0.7.1
+    - platformdirs >=2.2.0
+    - toml >=0.9.2
+    - typing_extensions >=3.10
 
 test:
   imports:
