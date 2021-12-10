@@ -25,7 +25,7 @@ requirements:
     - wheel
   run:
     - python >=3.6.2
-    - astroid >=2.9.0,<2.10
+    - astroid >=2.9.0,<2.10 
     - colorama  # [win]
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.7
