@@ -45,6 +45,9 @@ test:
   requires:
     - pip
   commands:
+    # 2022/03/22: Disable pip check because
+    # pylint 2.12.2 has requirement mccabe<0.7,>=0.6, but you have mccabe 0.7.0.
+    # We can safely use mccabe 0.7.0 https://github.com/PyCQA/mccabe/compare/0.6.1...0.7.0, it was released after pylint 2.12.2 and it haven't broken changes
     - pip check
     - pylint --help
     # Has no help option.
