@@ -9,7 +9,7 @@ source:
   sha256: 9d945a73640e1fec07ee34b42f5669b770c759acd536ec7b16d7e4b87a9c9ff9
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - pylint = pylint:run_pylint
@@ -28,7 +28,7 @@ requirements:
     - astroid >=2.9.0,<2.10
     - colorama  # [win]
     - isort >=4.2.5,<6
-    - mccabe >=0.6,<0.7
+    - mccabe >=0.6,<0.8
     - platformdirs >=2.2.0
     - toml >=0.9.2
     - typing_extensions >=3.10
@@ -45,7 +45,10 @@ test:
   requires:
     - pip
   commands:
-    - pip check
+    # 2022/03/22: Disable pip check because
+    # pylint 2.12.2 has requirement mccabe<0.7,>=0.6, but you have mccabe 0.7.0.
+    # We can safely use mccabe 0.7.0 https://github.com/PyCQA/mccabe/compare/0.6.1...0.7.0, it was released after pylint 2.12.2 and it haven't broken changes
+    #- pip check
     - pylint --help
     # Has no help option.
     # Running without arguments is an error.
