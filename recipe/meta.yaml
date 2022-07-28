@@ -25,12 +25,13 @@ requirements:
     - wheel
   run:
     - python >=3.7.2
-    - astroid >=2.12.2,<2.14
+    - astroid >=2.11.6,<2.14
     - colorama  # [win]
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.8
     - platformdirs >=2.2.0
-    - toml >=1.1.0
+    # 2022/07/25 RSK pylint switched from toml to tomli in 2.13.0
+    - tomli >=1.1.0
     - tomlkit >=0.10.1
     - typing_extensions >=3.10
 
