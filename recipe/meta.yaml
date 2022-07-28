@@ -10,7 +10,7 @@ source:
 
 build:
   number: 0
-  skip: True #[py>37]
+  skip: True #[py<37]
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - pylint = pylint:run_pylint
@@ -28,6 +28,7 @@ requirements:
     - python
     - astroid >=2.11.6,<2.14
     - colorama  # [win]
+    - dill >=0.2
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.8
     - platformdirs >=2.2.0
