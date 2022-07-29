@@ -14,6 +14,7 @@ build:
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
   entry_points:
     - pylint = pylint:run_pylint
+    - pylint-config = pylint:_run_pylint_config
     - epylint = pylint:run_epylint
     - pyreverse = pylint:run_pyreverse
     - symilar = pylint:run_symilar
@@ -25,15 +26,15 @@ requirements:
     - setuptools
     - wheel
   run:
-    - python
+    - python >=3.7.2
     - astroid >=2.11.6,<2.12.0
-    - colorama  # [win]
+    - colorama >=0.4.5 # [win]
     - dill >=0.2
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.8
     - platformdirs >=2.2.0
     # 2022/07/25 RSK pylint switched from toml to tomli in 2.13.0
-    - tomli >=1.1.0
+    - tomli >=1.1.0 # [py<311]
     - tomlkit >=0.10.1
     - typing_extensions >=3.10
 
@@ -49,10 +50,7 @@ test:
   requires:
     - pip
   commands:
-    # 2022/03/22: Disable pip check because
-    # pylint 2.12.2 has requirement mccabe<0.7,>=0.6, but you have mccabe 0.7.0.
-    # We can safely use mccabe 0.7.0 https://github.com/PyCQA/mccabe/compare/0.6.1...0.7.0, it was released after pylint 2.12.2 and it haven't broken changes
-    #- pip check
+    - pip check
     - pylint --help
     # Has no help option.
     # Running without arguments is an error.
@@ -61,6 +59,7 @@ test:
     - where epylint  # [win]
     - pyreverse --help
     - symilar --help
+    - pylint-config --help
 
 about:
   home: https://www.pylint.org
