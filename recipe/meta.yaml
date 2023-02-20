@@ -50,6 +50,7 @@ test:
     - pylint.utils
   requires:
     - pip
+    - astroid 2.14.2
   commands:
     - pip check
     - pylint --help
