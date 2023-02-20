@@ -26,17 +26,18 @@ requirements:
     - setuptools
     - wheel
   run:
-    - python >=3.7.2
-    - astroid >=2.11.6,<2.12.0
-    - colorama >=0.4.5 # [win]
-    - dill >=0.2
+    - python
+    - astroid >=2.14.2,<=2.16.0
+    - colorama >=0.4.5
+    - dill >=0.2  # [py<311]
+    - dill >=0.3.6  # [py>=311]
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.8
     - platformdirs >=2.2.0
     # 2022/07/25 RSK pylint switched from toml to tomli in 2.13.0
     - tomli >=1.1.0 # [py<311]
     - tomlkit >=0.10.1
-    - typing_extensions >=3.10
+    - typing_extensions >=3.10.0  # [py<310]
 
 test:
   imports:
