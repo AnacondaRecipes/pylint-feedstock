@@ -1,4 +1,4 @@
-{% set version = "2.14.5" %}
+{% set version = "2.16.2" %}
 
 package:
   name: pylint
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/pylint/pylint-{{ version }}.tar.gz
-  sha256: 487ce2192eee48211269a0e976421f334cf94de1806ca9d0a99449adcdf0285e
+  sha256: 13b2c805a404a9bf57d002cd5f054ca4d40b0b87542bdaba5e05321ae8262c84
 
 build:
   number: 0
@@ -26,17 +26,18 @@ requirements:
     - setuptools
     - wheel
   run:
-    - python >=3.7.2
-    - astroid >=2.11.6,<2.12.0
-    - colorama >=0.4.5 # [win]
-    - dill >=0.2
+    - python
+    - astroid >=2.14.2,<=2.16.0
+    - colorama >=0.4.5
+    - dill >=0.2  # [py<311]
+    - dill >=0.3.6  # [py>=311]
     - isort >=4.2.5,<6
     - mccabe >=0.6,<0.8
     - platformdirs >=2.2.0
     # 2022/07/25 RSK pylint switched from toml to tomli in 2.13.0
     - tomli >=1.1.0 # [py<311]
     - tomlkit >=0.10.1
-    - typing_extensions >=3.10
+    - typing_extensions >=3.10.0  # [py<310]
 
 test:
   imports:
@@ -49,6 +50,9 @@ test:
     - pylint.utils
   requires:
     - pip
+    # Astroid needs to be pinned to current minimum version
+    # https://github.com/PyCQA/pylint/blob/v2.16.2/requirements_test_min.txt#L3
+    - astroid 2.14.2
   commands:
     - pip check
     - pylint --help
@@ -59,9 +63,6 @@ test:
     - where epylint  # [win]
     - pyreverse --help
     - symilar --help
-    # For pylint 2.14.5, pylint-config is currently experimental and throws a warning 
-    #   A warning current causes failure in test.
-    #- pylint-config --help
 
 about:
   home: https://www.pylint.org
@@ -73,7 +74,6 @@ about:
     Pylint is a tool that checks for errors in Python code, tries to enforce a
     coding standard and looks for code smells.
   doc_url: https://pylint.readthedocs.io
-  doc_source_url: https://github.com/PyCQA/pylint/blob/master/doc/index.rst
   dev_url: https://github.com/PyCQA/pylint/
 
 extra:
