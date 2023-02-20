@@ -50,6 +50,8 @@ test:
     - pylint.utils
   requires:
     - pip
+    # Astroid needs to be pinned to current minimum version
+    # https://github.com/PyCQA/pylint/blob/v2.16.2/requirements_test_min.txt#L3
     - astroid 2.14.2
   commands:
     - pip check
@@ -61,9 +63,6 @@ test:
     - where epylint  # [win]
     - pyreverse --help
     - symilar --help
-    # For pylint 2.14.5, pylint-config is currently experimental and throws a warning 
-    #   A warning current causes failure in test.
-    #- pylint-config --help
 
 about:
   home: https://www.pylint.org
