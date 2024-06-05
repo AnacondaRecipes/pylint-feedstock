@@ -55,9 +55,13 @@ test:
   commands:
     - pip check
     - pylint --help
-    - pylint-config --help
     - pyreverse --help
-    - symilar --help
+    - symilar --help    
+    # Has no help option.
+    # Running without arguments is an error.
+    # So just check that it exists.
+    - type pylint-config  # [unix]
+    - where pylint-config  # [win]
 
 about:
   home: https://www.pylint.org
