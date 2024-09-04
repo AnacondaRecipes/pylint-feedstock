@@ -1,4 +1,4 @@
-{% set version = "3.2.2" %}
+{% set version = "3.2.7" %}
 
 package:
   name: pylint
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/pylint/pylint-{{ version }}.tar.gz
-  sha256: d068ca1dfd735fb92a07d33cb8f288adc0f6bc1287a139ca2425366f7cbe38f8
+  sha256: 1b7a721b575eaeaa7d39db076b6e7743c993ea44f57979127c517c6c572c803e
 
 build:
   number: 0
@@ -30,7 +30,7 @@ requirements:
     - dill >=0.3.6  # [py==311]
     - dill >=0.3.7  # [py>=312]
     - platformdirs >=2.2.0
-    - astroid >=3.2.2,<3.3.0
+    - astroid >=3.2.4,<3.3.0
     - isort >=4.2.5,<6,!=5.13.0
     - mccabe >=0.6,<0.8
     - tomli >=1.1.0  # [py<311]
@@ -51,9 +51,25 @@ test:
     - pylint.reporters.ureports
     - pylint.utils
   requires:
+    - git
+    - gitpython
     - pip
+    - py >=1.11.0,<1.12.0
+    - pytest >=7.4.0,<8
+    - pytest-benchmark >=4.0.0,<5.0.0
+    - pytest-timeout >=2,<3
+    - requests
+    - typing-extensions >=4.11.0,<5
+  source_files:
+    - pyproject.toml
+    - tests
   commands:
     - pip check
+    # Hardcoded test output does not work in our test environment due to pylint being seen as a local package. Updating
+    # the function output was tested; however, dependant tests continue to fail. Disabling for now.
+    # https://github.com/pylint-dev/pylint/blob/v3.2.7/tests/functional/w/wrong_import_order.txt
+    - pytest -v tests -k "not (test_functional[wrong_import_order] or test_compare[both_empty] or
+      test_compare[no_change] or test_compare[message_changed] or test_compare_batched or test_truncated_compare)"
     - pylint --help
     - pyreverse --help
     - symilar --help    
