@@ -1,17 +1,17 @@
 {% set name = "pylint" %}
-{% set version = "3.3.8" %}
+{% set version = "4.0.3" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 26698de19941363037e2937d3db9ed94fb3303fdadf7d98847875345a8bb6b05
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: a427fe76e0e5355e9fb9b604fd106c419cafb395886ba7f3cebebb03f30e081d
 
 build:
   number: 0
-  skip: true  # [py<39]
+  skip: true  # [py<3100]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vvv
   entry_points:
     - pylint = pylint:run_pylint
@@ -26,20 +26,21 @@ requirements:
     - setuptools >=77
   run:
     - python
-    - dill >=0.2    # [py<311]
+    - dill >=0.3.7  # [py>=312]
     - dill >=0.3.6  # [py==311]
     - dill >=0.3.7  # [py>=312]
-    - platformdirs >=2.2.0
-    - astroid >=3.3.8,<3.4.0
-    - isort >=4.2.5,<7,!=5.13.0
+    - platformdirs >=2.2
+    - astroid >=4.0.2,<=4.1.dev0
+    - isort >=5,!=5.13,<8
     - mccabe >=0.6,<0.8
-    - tomli >=1.1.0  # [py<311]
+    - tomli >=1.1  # [py<311]
     - tomlkit >=0.10.1
     - colorama >=0.4.5  # [win]
     - typing-extensions >=3.10.0  # [py<310]
+    - typing_extensions >=3.10  # [py<310]
   run_constrained:
     - gitpython >3
-    - pyenchant >=3.2,<4
+    - pyenchant >=3.2,<4.dev0
 
 test:
   imports:
@@ -69,11 +70,11 @@ test:
     # Hardcoded test output does not work in our test environment due to pylint being seen as a local package. Updating
     # the function output was tested; however, dependant tests continue to fail. Disabling for now.
     # https://github.com/pylint-dev/pylint/blob/v3.2.7/tests/functional/w/wrong_import_order.txt
-    - pytest -v tests -k "not (test_functional[wrong_import_order] or test_compare[both_empty] or
-      test_compare[no_change] or test_compare[message_changed] or test_compare_batched or test_truncated_compare)"
+    - pytest -v tests -k "not (test_functional[wrong_import_order] or test_compare[both_empty] or:
+        - test_compare[no_change] or test_compare[message_changed] or test_compare_batched or test_truncated_compare)"
     - pylint --help
     - pyreverse --help
-    - symilar --help    
+    - symilar --help
     # Has no help option.
     # Running without arguments is an error.
     # So just check that it exists.
