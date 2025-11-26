@@ -61,7 +61,7 @@ requirements:
 {% set tests_to_skip = tests_to_skip + ' or test_more_args' %}  # [win]
 # >   os.remove(tempfile_name)
 # E   PermissionError: [Errno 1] Operation not permitted: '/tmp/CONFIG'
-{% set tests_to_skip = tests_to_skip + ' or test_writing_to_output_file' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_writing_to_output_file' %}
 test:
   source_files:
     - pyproject.toml
