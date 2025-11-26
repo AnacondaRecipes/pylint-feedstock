@@ -36,7 +36,6 @@ requirements:
     - platformdirs >=2.2
     - tomli >=1.1  # [py<311]
     - tomlkit >=0.10.1
-    - typing-extensions >=3.10.0  # [py<310]
   run_constrained:
     # testutils
     - gitpython >3
@@ -99,7 +98,7 @@ test:
     - where pylint-config  # [win]
 
 about:
-  home: https://www.pylint.org
+  home: https://github.com/pylint-dev/pylint
   license: GPL-2.0-or-later
   license_family: GPL
   license_file: LICENSE
