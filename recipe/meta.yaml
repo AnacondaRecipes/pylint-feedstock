@@ -53,6 +53,12 @@ requirements:
 {% set tests_to_skip = tests_to_skip + ' or test_compare' %}
 {% set tests_to_skip = tests_to_skip + ' or test_compare_batched' %}
 {% set tests_to_skip = tests_to_skip + ' or test_truncated_compare' %}
+# Syspath not found - C:\\Users\\TA0D34~1
+{% set tests_to_skip = tests_to_skip + ' or test_pylintrc' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_pyproject_toml_parentdir' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_one_arg' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_two_similar_args' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_more_args' %}  # [win]
 test:
   source_files:
     - pyproject.toml
