@@ -10,7 +10,7 @@ source:
   sha256: 26698de19941363037e2937d3db9ed94fb3303fdadf7d98847875345a8bb6b05
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vvv
   entry_points:
@@ -41,7 +41,18 @@ requirements:
     - gitpython >3
     - pyenchant >=3.2,<4
 
+# >   os.remove(tempfile_name)
+# E   PermissionError: [Errno 1] Operation not permitted: '/tmp/CONFIG'
+{% set deselect_tests = " --deselect=tests/config/pylint_config/test_pylint_config_generate.py::test_writing_to_output_file" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/config/test_find_default_config_files.py::test_pylintrc" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/config/test_find_default_config_files.py::test_pyproject_toml_parentdir" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/lint/unittest_lint.py::test_one_arg" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/lint/unittest_lint.py::test_two_similar_args" %}  # [win]
+{% set deselect_tests = deselect_tests + " --deselect=tests/lint/unittest_lint.py::test_more_args" %}  # [win]
 test:
+  source_files:
+    - pyproject.toml
+    - tests
   imports:
     - pylint
     - pylint.checkers
@@ -50,35 +61,32 @@ test:
     - pylint.reporters
     - pylint.reporters.ureports
     - pylint.utils
+  commands:
+    - pip check
+    # Hardcoded test output does not work in our test environment due to pylint being seen as a local package. Updating
+    # the function output was tested; however, dependant tests continue to fail. Disabling for now.
+    # https://github.com/pylint-dev/pylint/blob/v3.2.7/tests/functional/w/wrong_import_order.txt
+    # Disabled tests for the python-314, won`t rebuild deps only for the tests
+    - pytest -v tests -k "not (test_functional[wrong_import_order] or test_compare[both_empty] or test_compare[no_change] or test_compare[message_changed] or test_compare_batched or test_truncated_compare)" {{ deselect_tests }}  # [py<314]
+    - pylint --help
+    - pyreverse --help
+    - symilar --help
+    # Has no help option.
+    # Running without arguments is an error.
+    # So just check that it exists.
+    - type pylint-config  # [unix]
+    - where pylint-config  # [win]
   requires:
     - git
     - gitpython
     - pip
     - py >=1.11.0,<1.12
     - pytest >=7.4.0,<8
-    - pytest-benchmark >=4.0,<5
+    - pytest-benchmark >=4.0,<5  # [py<314]
     - pytest-timeout >=2,<3
     - pytest-xdist >=3.6,<4
     - requests
     - typing-extensions >=4.12,<5
-  source_files:
-    - pyproject.toml
-    - tests
-  commands:
-    - pip check
-    # Hardcoded test output does not work in our test environment due to pylint being seen as a local package. Updating
-    # the function output was tested; however, dependant tests continue to fail. Disabling for now.
-    # https://github.com/pylint-dev/pylint/blob/v3.2.7/tests/functional/w/wrong_import_order.txt
-    - pytest -v tests -k "not (test_functional[wrong_import_order] or test_compare[both_empty] or
-      test_compare[no_change] or test_compare[message_changed] or test_compare_batched or test_truncated_compare)"
-    - pylint --help
-    - pyreverse --help
-    - symilar --help    
-    # Has no help option.
-    # Running without arguments is an error.
-    # So just check that it exists.
-    - type pylint-config  # [unix]
-    - where pylint-config  # [win]
 
 about:
   home: https://www.pylint.org
