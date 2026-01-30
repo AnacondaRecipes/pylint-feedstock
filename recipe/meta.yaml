@@ -1,16 +1,5 @@
 {% set name = "pylint" %}
 {% set version = "4.0.4" %}
-{% set tests_to_skip = "test_progress_reporting" %}
-{% set tests_to_skip = tests_to_skip + ' or test_functional' %}
-{% set tests_to_skip = tests_to_skip + ' or test_compare' %}
-{% set tests_to_skip = tests_to_skip + ' or test_compare_batched' %}
-{% set tests_to_skip = tests_to_skip + ' or test_truncated_compare' %}
-{% set tests_to_skip = tests_to_skip + ' or test_pylintrc' %}  # [win]
-{% set tests_to_skip = tests_to_skip + ' or test_pyproject_toml_parentdir' %}  # [win]
-{% set tests_to_skip = tests_to_skip + ' or test_one_arg' %}  # [win]
-{% set tests_to_skip = tests_to_skip + ' or test_two_similar_args' %}  # [win]
-{% set tests_to_skip = tests_to_skip + ' or test_more_args' %}  # [win]
-{% set tests_to_skip = tests_to_skip + ' or test_writing_to_output_file' %}
 
 package:
   name: {{ name }}
@@ -28,7 +17,7 @@ build:
     - pylint-config = pylint:_run_pylint_config
     - pyreverse = pylint:run_pyreverse
     - symilar = pylint:run_symilar
-  skip: true  # [py<3100]
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -37,9 +26,9 @@ requirements:
     - setuptools >=77
   run:
     - python
-    - astroid >=4.0.2,<=4.1.dev0
+    - astroid >=4.0.2,<=4.1
     - colorama >=0.4.5  # [win]
-    - dill >=0.3.7  # [py>=312]
+    - dill >=0.2    # [py<311]
     - dill >=0.3.6  # [py==311]
     - dill >=0.3.7  # [py>=312]
     - isort >=5,!=5.13,<8
@@ -47,21 +36,31 @@ requirements:
     - platformdirs >=2.2
     - tomli >=1.1  # [py<311]
     - tomlkit >=0.10.1
-    - typing_extensions >=3.10  # [py<310]
   run_constrained:
     # testutils
     - gitpython >3
     # spelling
-    - pyenchant >=3.2,<4.dev0
+    - pyenchant >=3.2,<4
 
 # >   assert self._clean_paths(expected_output.strip()) == actual_output.strip()
 # E   AssertionError: assert 'Using config...g.py (2 of 2)' == 'Using config...g.py (2 of 2)'
+{% set tests_to_skip = "test_progress_reporting" %}
 # Hardcoded test output does not work in our test environment due to pylint being seen as a local package. Updating
 # the function output was tested; however, dependant tests continue to fail. Disabling for now.
 # https://github.com/pylint-dev/pylint/blob/v4.0.3/tests/functional/w/wrong_import_order.txt
+{% set tests_to_skip = tests_to_skip + ' or test_functional' %}
+{% set tests_to_skip = tests_to_skip + ' or test_compare' %}
+{% set tests_to_skip = tests_to_skip + ' or test_compare_batched' %}
+{% set tests_to_skip = tests_to_skip + ' or test_truncated_compare' %}
 # Syspath not found - C:\\Users\\TA0D34~1
+{% set tests_to_skip = tests_to_skip + ' or test_pylintrc' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_pyproject_toml_parentdir' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_one_arg' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_two_similar_args' %}  # [win]
+{% set tests_to_skip = tests_to_skip + ' or test_more_args' %}  # [win]
 # >   os.remove(tempfile_name)
 # E   PermissionError: [Errno 1] Operation not permitted: '/tmp/CONFIG'
+{% set tests_to_skip = tests_to_skip + ' or test_writing_to_output_file' %}
 test:
   source_files:
     - pyproject.toml
@@ -87,10 +86,11 @@ test:
     - typing-extensions >=4.15,<5
   commands:
     - pip check
+    
     - pytest -v tests -k "not ({{ tests_to_skip }})"
     - pylint --help
     - pyreverse --help
-    - symilar --help
+    - symilar --help    
     # Has no help option.
     # Running without arguments is an error.
     # So just check that it exists.
