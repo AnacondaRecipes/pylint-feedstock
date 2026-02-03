@@ -1,5 +1,5 @@
 {% set name = "pylint" %}
-{% set version = "4.0.3" %}
+{% set version = "4.0.4" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: a427fe76e0e5355e9fb9b604fd106c419cafb395886ba7f3cebebb03f30e081d
+  sha256: d9b71674e19b1c36d79265b5887bf8e55278cbe236c9e95d22dc82cf044fdbd2
 
 build:
   number: 0
