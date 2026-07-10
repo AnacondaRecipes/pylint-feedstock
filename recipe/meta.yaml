@@ -26,7 +26,7 @@ requirements:
     - setuptools >=77
   run:
     - python
-    - astroid >=4.0.2,<4.1
+    - astroid >=4.0.2,<=4.1.dev0
     - colorama >=0.4.5  # [win]
     - dill >=0.2    # [py<311]
     - dill >=0.3.6  # [py==311]
