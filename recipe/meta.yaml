@@ -61,6 +61,12 @@ requirements:
 # >   os.remove(tempfile_name)
 # E   PermissionError: [Errno 1] Operation not permitted: '/tmp/CONFIG'
 {% set tests_to_skip = tests_to_skip + ' or test_writing_to_output_file' %}
+# tests/reporters/unittest_junit_reporter.py imports pytest_remaster, which
+# upstream's pyproject.toml never declares as a test dependency and which is
+# not available in the channel. Ignoring the whole module since the import
+# error aborts collection of the entire test suite.
+# https://github.com/pylint-dev/pylint/blob/v4.1.3/tests/reporters/unittest_junit_reporter.py
+{% set tests_to_ignore = "tests/reporters/unittest_junit_reporter.py" %}
 test:
   source_files:
     - pyproject.toml
@@ -86,7 +92,7 @@ test:
     - typing-extensions >=4.15,<5
   commands:
     - pip check
-    - pytest -vv tests -k "not ({{ tests_to_skip }})"
+    - pytest -vv tests --ignore={{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"
     - pylint --help
     - pyreverse --help
     - symilar --help
