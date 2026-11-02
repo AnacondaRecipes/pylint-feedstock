@@ -61,6 +61,22 @@ requirements:
 # >   os.remove(tempfile_name)
 # E   PermissionError: [Errno 1] Operation not permitted: '/tmp/CONFIG'
 {% set tests_to_skip = tests_to_skip + ' or test_writing_to_output_file' %}
+# New in 4.1.0: NO_COLOR/FORCE_COLOR reporter tests in test_pylinter.py compare
+# reporter classes with `is`/equality, which fails only on win-64 py3.10 because
+# pylint is imported as `site-packages.pylint...` there instead of `pylint...`
+# (the same local-package identity issue noted above). Reproducible on every
+# win-64 py3.10 run; passes cleanly on win-64 py3.11-3.14 and all other platforms.
+{% set tests_to_skip = tests_to_skip + ' or test_no_color_disables_colorized_on_stdout' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_no_color_keeps_text_on_stdout' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_force_color_enables_colorized_on_stdout' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_force_color_keeps_colorized_on_stdout' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_force_color_keeps_other_text_formats' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_no_color_wins_over_force_color' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_empty_color_variables_are_ignored' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_color_variables_ignore_reporters_writing_to_a_file' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_color_variables_only_change_the_stdout_reporter' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_pylinter_api_ignores_color_variables' %}  # [win and py==310]
+{% set tests_to_skip = tests_to_skip + ' or test_run_force_color_warns_over_explicit_text_format' %}  # [win and py==310]
 # tests/reporters/unittest_junit_reporter.py imports pytest_remaster, which
 # upstream's pyproject.toml never declares as a test dependency and which is
 # not available in the channel. Ignoring the whole module since the import
